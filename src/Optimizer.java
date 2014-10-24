@@ -1,21 +1,19 @@
 import org.jgraph.graph.Edge;
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.alg.*;
-import java.net.*;
-import org.jgrapht.*;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.traverse.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
+import java.util.Set;
 
 
 public class Optimizer {
-    private QuickestFlight a;
     private DestinationsByFlight b;
     private MaxRoundTrip c;
     private Scanner s;
@@ -32,23 +30,24 @@ public class Optimizer {
     }
 
     /*
-    * Finding Quickest flight between two destinations
+     * Finding Quickest flight between two destinations
      */
     public String calculate(String start, String destination){
-
-        return "";
+        return  DijkstraShortestPath.findPathBetween(g, start, destination).toString();
     }
 
     /*
-    * Finding All Destination with number of flights
+     * Finding All Destination with number of flights
      */
     public String calculate(String start, int flights){
+        List<String> s = new ArrayList<String>();
+        s = destinationByFlights(start, flights, s);
+        return s.toString();
 
-        return "";
     }
 
     /*
-    * Finding Max Round Trip
+     * Finding Max Round Trip
      */
     public String calculate(String start){
         return "";
@@ -62,7 +61,7 @@ public class Optimizer {
         }
     }
 
-    private String addFlight(String line){
+    private void addFlight(String line){
         String[] elements = line.split(",");
         String v1 = elements[0];
         String v2 = elements[1];
@@ -79,8 +78,34 @@ public class Optimizer {
         // add edges
         DefaultWeightedEdge e = g.addEdge(v1, v2);
         g.setEdgeWeight(e, i);
+    }
 
+    private List<String> destinationByFlights(String start, int flights, List<String> destination){
+        if(flights > 0) {
+            flights--;
+            /* get all edges of node */
+            Set<DefaultWeightedEdge> hop = g.edgesOf(start);
+            for(DefaultWeightedEdge edge : hop){
+                /* foreach edge get the target and recurse by num flights */
+                String target = g.getEdgeTarget(edge);
+                destinationByFlights(target, flights, destination);
+            }
+        } else {
+            destination.add(start);
+        }
+        return destination;
+    }
 
-        return "";
+    private List<String> maxRoundTrip(String start){
+        GraphIterator<String, DefaultWeightedEdge> iterator =  new BreadthFirstIterator<Integer, DefaultWeightedEdge>(g);
+
+        int maxLength = 0;
+        while(iterator.hasNext()){
+            if(iterator.next() == start){
+                /* Get Path and length */
+            }
+        }
+
+        return null;
     }
 }
