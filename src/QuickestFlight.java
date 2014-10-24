@@ -1,3 +1,3 @@
-public class QuickestFlight {
+public class QuickestFlight extends Optimizer {
 
 }

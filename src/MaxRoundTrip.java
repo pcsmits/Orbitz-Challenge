@@ -1,4 +1,4 @@
-public class MaxRoundTrip {
+public class MaxRoundTrip extends Optimizer {
 
 
 }
