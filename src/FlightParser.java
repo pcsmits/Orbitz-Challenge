@@ -25,7 +25,7 @@ public class FlightParser {
      */
     public FlightParser () throws  IOException {
         o = new Optimizer();
-        String fileName = "task.test";
+        String fileName = "/home/pcsmits/git/Orbitz-Challenge/src/task.test";
         Path path = Paths.get(fileName);
         s = new Scanner(path);
 

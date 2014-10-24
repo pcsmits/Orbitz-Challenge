@@ -1,4 +1,6 @@
 import org.jgraph.graph.Edge;
+import org.jgrapht.alg.cycle.DirectedSimpleCycles;
+import org.jgrapht.alg.cycle.TarjanSimpleCycles;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.alg.*;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -14,15 +16,14 @@ import java.util.Set;
 
 
 public class Optimizer {
-    private DestinationsByFlight b;
-    private MaxRoundTrip c;
     private Scanner s;
     private DefaultDirectedWeightedGraph<String, DefaultWeightedEdge> g;
 
     public Optimizer() throws IOException{
         g = new DefaultDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
-        String fileName = "flights.txt";
+        String fileName = "/home/pcsmits/git/Orbitz-Challenge/src/flights.txt";
         Path path = Paths.get(fileName);
+        //System.out.println(path.toString());
         s = new Scanner(path);
 
         s.useDelimiter(System.getProperty("line.separator"));
@@ -97,14 +98,9 @@ public class Optimizer {
     }
 
     private List<String> maxRoundTrip(String start){
-        GraphIterator<String, DefaultWeightedEdge> iterator =  new BreadthFirstIterator<Integer, DefaultWeightedEdge>(g);
-
-        int maxLength = 0;
-        while(iterator.hasNext()){
-            if(iterator.next() == start){
-                /* Get Path and length */
-            }
-        }
+        DirectedSimpleCycles<String, DefaultWeightedEdge> cycles = new TarjanSimpleCycles<String, DefaultWeightedEdge>(g);
+        List<List<String>> roundTrip = cycles.findSimpleCycles();
+        System.out.println(roundTrip.toString());
 
         return null;
     }
