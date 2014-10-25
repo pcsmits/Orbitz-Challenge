@@ -9,10 +9,7 @@ import org.jgrapht.traverse.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 
 public class Optimizer {
@@ -34,7 +31,15 @@ public class Optimizer {
      * Finding Quickest flight between two destinations
      */
     public String calculate(String start, String destination){
-        return  DijkstraShortestPath.findPathBetween(g, start, destination).toString();
+        String strPath = start;
+        List<DefaultWeightedEdge> path = DijkstraShortestPath.findPathBetween(g, start, destination);
+        if (path == null) {return "";}
+        for (DefaultWeightedEdge edge : path) {
+            String target = g.getEdgeTarget(edge);
+            strPath += ","+target;
+        }
+        System.out.println(strPath);
+        return strPath;
     }
 
     /*
@@ -63,10 +68,12 @@ public class Optimizer {
     }
 
     private void addFlight(String line){
+        //System.out.println(line);
         String[] elements = line.split(",");
+        elements[2] = elements[2].replaceAll("(\\r|\\n)", "");
+        int i = Integer.parseInt(elements[2]);
         String v1 = elements[0];
         String v2 = elements[1];
-        Integer i = Integer.parseInt(elements[2]);
 
         // add the vertices
         if(!g.containsVertex(v1)){
