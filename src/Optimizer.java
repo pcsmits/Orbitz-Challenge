@@ -46,17 +46,17 @@ public class Optimizer {
      * Finding All Destination with number of flights
      */
     public String calculate(String start, int flights){
-        List<String> s = new ArrayList<String>();
-        s = destinationByFlights(start, flights, s);
-        return s.toString();
-
+        ArrayList<String> s = new ArrayList<String>();
+        System.out.println(listToString(destinationByFlights(start, flights, s), ","));
+        return listToString(destinationByFlights(start, flights, s), ",");
     }
 
     /*
      * Finding Max Round Trip
      */
     public String calculate(String start){
-        return "";
+        List<String> maxTrip = maxRoundTrip(start);
+        return listToString(maxTrip, ",");
     }
 
 
@@ -96,7 +96,8 @@ public class Optimizer {
             for(DefaultWeightedEdge edge : hop){
                 /* foreach edge get the target and recurse by num flights */
                 String target = g.getEdgeTarget(edge);
-                destinationByFlights(target, flights, destination);
+                System.out.println(edge.toString());
+                destination = destinationByFlights(target, flights, destination);
             }
         } else {
             destination.add(start);
@@ -110,5 +111,16 @@ public class Optimizer {
         System.out.println(roundTrip.toString());
 
         return null;
+    }
+    private String listToString(List arlist, String delimiter) {
+        StringBuilder arlstTostr = new StringBuilder();
+        if (arlist.size() > 0) {
+            arlstTostr.append(arlist.get(0));
+            for (int i=1; i<arlist.size(); i++) {
+                arlstTostr.append(delimiter);
+                arlstTostr.append(arlist.get(i));
+            }
+        }
+        return arlstTostr.toString();
     }
 }
