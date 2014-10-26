@@ -1,0 +1,33 @@
+######## Readme ###################
+Usage:
+On a linux machine
+	-please download the file to desired location
+	at the command line type:
+		unzip Parker_Smits_UWMadison.zip
+		cd Parker_Smits_UWMadison/src/
+		mkdir ../out
+		javac -cp .:../lib/jgrapht-0.9.0/lib/* *.java
+		java -cp .:../lib/jgrapht-0.9.0/lib/* FlightDriver
+	
+	this assumes tasks.txt and flight.txt is in the same folder as the source code
+
+
+Implementation:
+	My classes 
+		Driver class 
+		File Parsing class
+		File Writer class
+		and a sovler class
+
+	This implementation seperates the main functions of the task well while keeping the logic together,
+	I like seperating parsing/writing/ outside of the main funciton, since file parsing is always a little dirty and clutter a main function makes the code much less readable
+
+	In terms of the algorithms
+		Task 1: shortest path is a perfect use of Dijkstra algorith
+		Task 2: keeps an Set of all possible destinations and counts down until there are no possible flights left
+		Task 3: I admit I struggled with the best solution for this task, I think there is a better solution but I couldn't think of it.
+			What I did was return the set of all cycles in the graph, and then find the longest cycle that starts with the source
+
+	I made use of jgrapht library which makes graphing very easy in java.
+
+		

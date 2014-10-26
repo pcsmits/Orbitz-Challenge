@@ -5,7 +5,7 @@ public class FlightWriter {
     PrintWriter writer;
     public FlightWriter(){
         try {
-            writer = new PrintWriter("solutions.txt", "UTF-8");
+            writer = new PrintWriter("../out/solutions.txt", "UTF-8");
         } catch (Exception E){
 
         }

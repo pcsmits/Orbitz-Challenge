@@ -111,6 +111,7 @@ public class Optimizer {
             tmp.clear();
         }
         List<String> destination = new ArrayList<String>(destinations);
+        Collections.sort(destination);
         return destination;
     }
 
