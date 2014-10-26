@@ -1,3 +1,5 @@
+import java.io.File;
+import java.net.URL;
 import java.util.Scanner;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,8 +27,8 @@ public class FlightParser {
      */
     public FlightParser () throws  IOException {
         o = new Optimizer();
-        String fileName = "/home/pcsmits/git/Orbitz-Challenge/src/tasks.txt";
-        Path path = Paths.get(fileName);
+        URL url = getClass().getResource("tasks.txt");
+        File path = new File(url.getPath());
         s = new Scanner(path);
 
         s.useDelimiter(System.getProperty("line.separator"));

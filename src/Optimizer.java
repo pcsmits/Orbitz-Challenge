@@ -6,7 +6,9 @@ import org.jgrapht.alg.*;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.traverse.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -18,8 +20,12 @@ public class Optimizer {
 
     public Optimizer() throws IOException{
         g = new DefaultDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
-        String fileName = "/home/pcsmits/git/Orbitz-Challenge/src/flights.txt";
-        Path path = Paths.get(fileName);
+
+       // String fileName = "/home/pcsmits/git/Orbitz-Challenge/src/flights.txt";
+        //Path path = Paths.get(fileName);
+        URL url = getClass().getResource("flights.txt");
+        File path = new File(url.getPath());
+        //File path = new File("./flights.txt");
         s = new Scanner(path);
 
         s.useDelimiter(System.getProperty("line.separator"));
