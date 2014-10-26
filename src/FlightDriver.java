@@ -9,5 +9,6 @@ public class FlightDriver {
             String result = p.getNext();
             w.write(result);
         }
+        w.close();
     }
 }

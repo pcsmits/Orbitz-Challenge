@@ -20,7 +20,6 @@ public class Optimizer {
         g = new DefaultDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
         String fileName = "/home/pcsmits/git/Orbitz-Challenge/src/flights.txt";
         Path path = Paths.get(fileName);
-        //System.out.println(path.toString());
         s = new Scanner(path);
 
         s.useDelimiter(System.getProperty("line.separator"));
@@ -38,7 +37,6 @@ public class Optimizer {
             String target = g.getEdgeTarget(edge);
             strPath += ","+target;
         }
-        System.out.println(strPath);
         return strPath;
     }
 
@@ -46,9 +44,7 @@ public class Optimizer {
      * Finding All Destination with number of flights
      */
     public String calculate(String start, int flights){
-        ArrayList<String> s = new ArrayList<String>();
-        System.out.println(listToString(destinationByFlights(start, flights, s), ","));
-        return listToString(destinationByFlights(start, flights, s), ",");
+        return listToString(destinationByFlights(start, flights), ",");
     }
 
     /*
@@ -88,29 +84,45 @@ public class Optimizer {
         g.setEdgeWeight(e, i);
     }
 
-    private List<String> destinationByFlights(String start, int flights, List<String> destination){
-        if(flights > 0) {
+    private List<String> destinationByFlights(String start, int flights){
+        Set<String> destinations = new HashSet<String>();
+        Set<String> tmp = new HashSet<String>();
+        destinations.add(start);
+
+        while(flights > 0){
             flights--;
-            /* get all edges of node */
-            Set<DefaultWeightedEdge> hop = g.edgesOf(start);
-            for(DefaultWeightedEdge edge : hop){
+            for (String vertex : destinations){
+                Set<DefaultWeightedEdge> hop = g.edgesOf(vertex);
+                for (DefaultWeightedEdge edge : hop) {
                 /* foreach edge get the target and recurse by num flights */
-                String target = g.getEdgeTarget(edge);
-                System.out.println(edge.toString());
-                destination = destinationByFlights(target, flights, destination);
+                    if(vertex.equals(g.getEdgeSource(edge))) {
+                        start = g.getEdgeTarget(edge);
+                        tmp.add(start);
+                    }
+                }
             }
-        } else {
-            destination.add(start);
+            destinations = new HashSet<String>(tmp);
+            tmp.clear();
         }
+        List<String> destination = new ArrayList<String>(destinations);
         return destination;
     }
 
     private List<String> maxRoundTrip(String start){
         DirectedSimpleCycles<String, DefaultWeightedEdge> cycles = new TarjanSimpleCycles<String, DefaultWeightedEdge>(g);
         List<List<String>> roundTrip = cycles.findSimpleCycles();
-        System.out.println(roundTrip.toString());
-
-        return null;
+        int index = -1;
+        int length = 0;
+        for (int i = 0; i < roundTrip.size(); i++) {
+            if(roundTrip.get(i).get(0).contains(start)){
+                if(roundTrip.get(i).size() > length){
+                    length = roundTrip.get(i).size();
+                    index = i;
+                }
+            }
+        }
+        roundTrip.get(index).add(start);
+        return roundTrip.get(index);
     }
     private String listToString(List arlist, String delimiter) {
         StringBuilder arlstTostr = new StringBuilder();

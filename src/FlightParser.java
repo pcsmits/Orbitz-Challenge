@@ -59,7 +59,7 @@ public class FlightParser {
 
             /* if only one element then finding maxRoundTrip */
             if(elements.length == 1){
-                elements[0] = elements[0].replaceAll("(\\r|\\n)", "");
+                start = elements[0].replaceAll("(\\r|\\n)", "");
                 return o.calculate(start);
             } else if (Character.isLetter(elements[1].charAt(0))){
                 /*if second element is a Letter */
